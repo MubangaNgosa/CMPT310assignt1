@@ -26,9 +26,9 @@ def rv(value_list):
     return np.array([value_list])
 
 # In all the following definitions:
-# x is d by n : input data
-# y is 1 by n : output regression values
-# th is d by 1 : weights
+# x is d by n: input data
+# y is 1 by n: output regression values
+# th is d by 1: weights
 # th0 is 1 by 1 or scalar
 def lin_reg(x, th, th0):
     """ Returns the predicted y
@@ -92,9 +92,10 @@ def d_lin_reg_th(x, th, th0):
     >>> th = np.array([[ 1.  ], [ 0.05]]); th0 = np.array([[ 2.]])
     >>> d_lin_reg_th(X[:,0:1], th, th0).tolist()
     [[1.0], [1.0]]
+
+    # Your code here [1]
     """
-    #Your code here [1]
-    pass
+    return x
 
 def d_square_loss_th(x, y, th, th0):
     """Returns the gradient of square_loss(x, y, th, th0) with respect to
@@ -115,11 +116,11 @@ def d_square_loss_th(x, y, th, th0):
     [[4.1], [4.1]]
     """
     #Your code here [2]
-    pass
+    return -2 * (y - lin_reg(x, th, th0)) * d_lin_reg_th(x, th, th0)
 
 def d_mean_square_loss_th(x, y, th, th0):
     """ Returns the gradient of mean_square_loss(x, y, th, th0) with
-        respect to th.  
+        respect to th.
 
         Note: It should be a one-line expression that uses d_square_loss_th.
 
@@ -130,7 +131,7 @@ def d_mean_square_loss_th(x, y, th, th0):
     [[4.1], [4.1]]
     """
     #Your code here [3]
-    pass
+    return np.mean(d_square_loss_th(x, y, th, th0), axis=1, keepdims=True)
 
 def d_lin_reg_th0(x, th, th0):
     """ Returns the gradient of lin_reg(x, th, th0) with respect to th0.
@@ -141,7 +142,7 @@ def d_lin_reg_th0(x, th, th0):
     [[1.0, 1.0, 1.0, 1.0]]
     """
     #Your code here [4]
-    pass
+    return np.ones((1, x.shape[1]))
 
 def d_square_loss_th0(x, y, th, th0):
     """ Returns the gradient of square_loss(x, y, th, th0) with
@@ -154,7 +155,7 @@ def d_square_loss_th0(x, y, th, th0):
     [[4.1, 3.6999999999999993, 4.5, 3.9000000000000004]]
     """
     #Your code here [5] 
-    pass
+    return -2 * (y - lin_reg(x, th, th0)) * d_lin_reg_th0(x, th, th0)
 
 def d_mean_square_loss_th0(x, y, th, th0):
     """ Returns the gradient of mean_square_loss(x, y, th, th0) with

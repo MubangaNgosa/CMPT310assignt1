@@ -6,7 +6,7 @@ import q3 as q3
 #-------------------------------------------------------------------------------
 
 # load auto-mpg-regression.tsv, including  Keys are the column names, including mpg.
-auto_data_all = []
+auto_data_all = q3.load_auto_data('auto-mpg-regression.tsv')
 
 # The choice of feature processing for each feature, mpg is always raw and
 # does not need to be specified.  Other choices are q3.standard and q3.one_hot.
@@ -40,5 +40,28 @@ auto_values, mu, sigma = q3.std_y(auto_values)
 #-------------------------------------------------------------------------------
 # Analyze auto data
 #-------------------------------------------------------------------------------     
-        
-#Your code for cross-validation goes here
+#setting the hyperparameters
+lambdas1 = [x * 0.01 for x in range(11)]
+lambdas2 = [x * 20 for x in range(11)]
+
+#Cross Validation Of both Feature Sets
+# set 1
+for order in range(1, 4):
+    if order == 3:
+        lambdas = lambdas2
+    else:
+        lambdas = lambdas1
+    for lam in lambdas:
+        rmse = q3.xval_learning_alg(q3.make_polynomial_feature_fun(order)(auto_data[0]), auto_values, lam, 10) * sigma
+        print(f'Feature Set 1 - Order: {order}, Lambda: {lam}, RMSE: {rmse:.3f}')
+
+# set 2
+print('-------------------------')
+for order in range(1, 4):
+    if order == 3:
+        lambdas = lambdas2
+    else:
+        lambdas = lambdas1
+    for lam in lambdas:
+        rmse = q3.xval_learning_alg(q3.make_polynomial_feature_fun(order)(auto_data[1]), auto_values, lam, 10) * sigma
+        print(f'Feature Set 2 - Order: {order}, Lambda: {lam}, RMSE: {rmse:.3f}')
